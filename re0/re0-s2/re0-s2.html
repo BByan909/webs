@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re：從零開始的異世界生活 s2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .video-container {
+            position: relative;
+            width: 800px;
+            margin-bottom: 20px;
+        }
+        @media (max-width: 768px) {
+            .video-container {
+                width: 350px;
+            }
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+        }
+        .episode-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            max-width: calc((100px + 10px) * 9 - 10px);
+        }
+        .episode-block {
+            border: 2px solid #444;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100px;
+            text-align: center;
+            background-color: #1e1e1e;
+        }
+        .episode-block a {
+            text-decoration: none;
+            color: #4fc3f7;
+            font-weight: bold;
+        }
+        .episode-block a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .controls {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+        }
+        .controls button {
+            padding: 10px 20px;
+            background-color: #4fc3f7;
+            border: none;
+            border-radius: 5px;
+            color: #121212;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .controls button:disabled {
+            background-color: #444;
+            cursor: not-allowed;
+        }
+        .size-controls {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .size-controls button {
+            padding: 5px 10px;
+            background-color: #333;
+            border: 1px solid #4fc3f7;
+            border-radius: 3px;
+            color: #4fc3f7;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<div style="margin-bottom: 20px;">
+    <button id="back-btn" style="
+        padding: 10px 20px;
+        background-color: #121212;
+        border: none;
+        border-radius: 5px;
+        color: #4fc3f7;
+        border: 2px solid #444;
+        font-weight: bold;
+        cursor: pointer;
+    "onclick="window.location.href='../main.html'">Back</button>
+</div>
+<body>
+    <div class="content">
+        <h1>Re：從零開始的異世界生活 s2</h1>
+        <p id="current-episode">Currently Playing: Episode 1</p>
+        <div class="video-container" id="video-container">
+            <iframe name="video-frame" src="ep1.mp4"></iframe>
+        </div>
+        <div class="controls">
+            <button id="prev-btn" disabled>Previous</button>
+            <button id="next-btn">Next</button>
+        </div>
+    </div>
+    <div class="episode-list" id="episode-list">
+        <div class="episode-block">
+            <a href="ep1.mp4" target="video-frame" data-episode="1">Episode 1</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep2.mp4" target="video-frame" data-episode="2">Episode 2</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep3.mp4" target="video-frame" data-episode="3">Episode 3</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep4.mp4" target="video-frame" data-episode="4">Episode 4</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep5.mp4" target="video-frame" data-episode="5">Episode 5</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep6.mp4" target="video-frame" data-episode="6">Episode 6</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep7.mp4" target="video-frame" data-episode="7">Episode 7</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep8.mp4" target="video-frame" data-episode="8">Episode 8</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep9.mp4" target="video-frame" data-episode="9">Episode 9</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep10.mp4" target="video-frame" data-episode="10">Episode 10</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep11.mp4" target="video-frame" data-episode="11">Episode 11</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep12.mp4" target="video-frame" data-episode="12">Episode 12</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep13.mp4" target="video-frame" data-episode="13">Episode 13</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep14.mp4" target="video-frame" data-episode="14">Episode 14</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep15.mp4" target="video-frame" data-episode="15">Episode 15</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep16.mp4" target="video-frame" data-episode="16">Episode 16</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep17.mp4" target="video-frame" data-episode="17">Episode 17</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep18.mp4" target="video-frame" data-episode="18">Episode 18</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep19.mp4" target="video-frame" data-episode="19">Episode 19</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep20.mp4" target="video-frame" data-episode="20">Episode 20</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep21.mp4" target="video-frame" data-episode="21">Episode 21</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep22.mp4" target="video-frame" data-episode="22">Episode 22</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep23.mp4" target="video-frame" data-episode="23">Episode 23</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep24.mp4" target="video-frame" data-episode="24">Episode 24</a>
+        </div>
+        <div class="episode-block">
+            <a href="ep25.mp4" target="video-frame" data-episode="25">Episode 25</a>
+        </div>
+            <script>
+        const episodes = Array.from(document.querySelectorAll('.episode-block a'));
+        const currentEpisodeDisplay = document.getElementById('current-episode');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const videoContainer = document.getElementById('video-container');
+        const sizeUpBtn = document.getElementById('size-up');
+        const sizeDownBtn = document.getElementById('size-down');
+        const sizeDisplay = document.getElementById('size-display');
+        let currentEpisodeIndex = 0;
+        let currentWidth = 800; // Default width in pixels
+        const minWidth = 400; // Minimum width
+        const maxWidth = 1200; // Maximum width
+        const step = 100; // Size change step
+
+        function updateEpisode(index) {
+            const episode = episodes[index];
+            const episodeNumber = episode.getAttribute('data-episode');
+            const episodeSrc = episode.getAttribute('href');
+            document.querySelector('iframe').src = episodeSrc;
+            currentEpisodeDisplay.textContent = `Currently Playing: Episode ${episodeNumber}`;
+            currentEpisodeIndex = index;
+
+            prevBtn.disabled = currentEpisodeIndex === 0;
+            nextBtn.disabled = currentEpisodeIndex === episodes.length - 1;
+        }
+
+        function updateSize() {
+            videoContainer.style.width = `${currentWidth}px`;
+            sizeDisplay.textContent = `${currentWidth}px`;
+            sizeDownBtn.disabled = currentWidth <= minWidth;
+            sizeUpBtn.disabled = currentWidth >= maxWidth;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentEpisodeIndex > 0) {
+                updateEpisode(currentEpisodeIndex - 1);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentEpisodeIndex < episodes.length - 1) {
+                updateEpisode(currentEpisodeIndex + 1);
+            }
+        });
+
+        sizeUpBtn.addEventListener('click', () => {
+            if (currentWidth < maxWidth) {
+                currentWidth = Math.min(currentWidth + step, maxWidth);
+                updateSize();
+            }
+        });
+
+        sizeDownBtn.addEventListener('click', () => {
+            if (currentWidth > minWidth) {
+                currentWidth = Math.max(currentWidth - step, minWidth);
+                updateSize();
+            }
+        });
+
+        episodes.forEach((episode, index) => {
+            episode.addEventListener('click', (e) => {
+                e.preventDefault();
+                updateEpisode(index);
+            });
+        });
+
+        // Initialize
+        updateSize();
+    </script>
+</body>
+</html>
