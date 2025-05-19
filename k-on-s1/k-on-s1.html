@@ -110,7 +110,9 @@
         <h1>K-On! Season 1</h1>
         <p id="current-episode">Currently Playing: Episode 1</p>
         <div class="video-container" id="video-container">
-            <iframe name="video-frame" src="ep1.mp4"></iframe>
+        <video name="video-frame" width="800" height="400" controls>
+                <source src="ep1.mp4" type="video/mp4">
+            </video> 
         </div>
         <div class="controls">
             <button id="prev-btn" disabled>Previous</button>
@@ -207,7 +209,46 @@
             }
         });
 
-        sizeUpBtn.addEventListener('click', () => {
+const series = "k-on-s1"
+        const localStorageKey = `last_playback_time_${series}`;
+
+        function getPlayerTimestamp(){
+            const videoContainer = document.getElementById('video-container');
+            const videoFrame = videoContainer.querySelector('video[name="video-frame"]');  
+
+            videoFrame.ontimeupdate = (e) => {
+                const currentTimestamp = videoFrame.currentTime;
+                localStorage.setItem(localStorageKey, currentTimestamp);
+                // console.log("Current timestamp:", currentTimestamp);
+            }
+            
+            
+        }
+
+        getPlayerTimestamp();
+
+        function resumePlaybackOnLoad() {
+            const videoContainer = document.getElementById('video-container');
+            const videoFrame = videoContainer.querySelector('video[name="video-frame"]');
+
+            if (videoFrame) {
+                const lastPlaybackTime = localStorage.getItem(localStorageKey);
+                if (lastPlaybackTime !== null) {
+                    const parsedTime = parseFloat(lastPlaybackTime);
+                    if (!isNaN(parsedTime)) {
+                        videoFrame.currentTime = parsedTime;
+                        console.log("Resumed playback at:", parsedTime);
+                        // Optionally, start playing:
+                        // videoFrame.play();
+                    }
+        }
+
+    }
+}
+
+    document.addEventListener('DOMContentLoaded', resumePlaybackOnLoad);
+
+            sizeUpBtn.addEventListener('click', () => {
             if (currentWidth < maxWidth) {
                 currentWidth = Math.min(currentWidth + step, maxWidth);
                 updateSize();
@@ -228,8 +269,8 @@
             });
         });
 
-        // Initialize
         updateSize();
+
     </script>
 </body>
 </html>
