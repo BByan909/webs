@@ -15,20 +15,14 @@
             align-items: center;
         }
         .video-container {
-            position: relative;
-            width: 800px;
-            margin-bottom: 20px;
+            width: 100%; 
+            max-width: 1200px;
+            height: auto; 
         }
-        @media (max-width: 768px) {
-            .video-container {
-                width: 350px;
-            }
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            aspect-ratio: 16 / 9;
-            border: none;
+        .video-container video {
+            display: block; 
+            width: 100%; 
+            height: auto;
         }
         .episode-list {
             display: flex;
@@ -110,7 +104,9 @@
         <h1>K-On! Season 2</h1>
         <p id="current-episode">Currently Playing: Episode 1</p>
         <div class="video-container" id="video-container">
-            <iframe name="video-frame" src="ep1.mp4"></iframe>
+        <video name="video-frame" width="800" height="400" controls>
+                <source src="ep1.mp4" type="video/mp4">
+            </video> 
         </div>
         <div class="controls">
             <button id="prev-btn" disabled>Previous</button>
@@ -246,29 +242,85 @@
             }
         });
 
-        sizeUpBtn.addEventListener('click', () => {
-            if (currentWidth < maxWidth) {
-                currentWidth = Math.min(currentWidth + step, maxWidth);
-                updateSize();
+const series = "k-on-s2"; // Change this to the series name
+        const localStorageKey = `last_playback_time_${series}`;
+
+        function getPlayerTimestamp(){
+            const videoContainer = document.getElementById('video-container');
+            const videoFrame = videoContainer.querySelector('video[name="video-frame"]');  
+
+            videoFrame.ontimeupdate = (e) => {
+                const currentTimestamp = videoFrame.currentTime;
+                localStorage.setItem(localStorageKey, currentTimestamp);
+                // console.log("Current timestamp:", currentTimestamp);
             }
-        });
+            
+            
+        }
 
-        sizeDownBtn.addEventListener('click', () => {
-            if (currentWidth > minWidth) {
-                currentWidth = Math.max(currentWidth - step, minWidth);
-                updateSize();
-            }
-        });
+        getPlayerTimestamp();
 
-        episodes.forEach((episode, index) => {
-            episode.addEventListener('click', (e) => {
-                e.preventDefault();
-                updateEpisode(index);
-            });
-        });
+        function resumePlaybackOnLoad() {
+            const videoContainer = document.getElementById('video-container');
+            const videoFrame = videoContainer.querySelector('video[name="video-frame"]');
 
-        // Initialize
-        updateSize();
+            if (videoFrame) {
+                const lastPlaybackTime = localStorage.getItem(localStorageKey);
+                if (lastPlaybackTime !== null) {
+                    const parsedTime = parseFloat(lastPlaybackTime);
+                    if (!isNaN(parsedTime)) {
+                        videoFrame.currentTime = parsedTime;
+                        console.log("Resumed playback at:", parsedTime);
+                        // Optionally, start playing:
+                        // videoFrame.play();
+                    }
+        }
+
+    }
+}
+        resumePlaybackOnLoad();
+        const videoSources = [
+            "ep1.mp4",
+            "ep2.mp4",
+            "ep3.mp4",
+            "ep4.mp4",
+            "ep5.mp4",
+            "ep6.mp4",
+            "ep7.mp4",
+            "ep8.mp4",
+            "ep9.mp4",
+            "ep10.mp4",
+            "ep11.mp4",
+            "ep12.mp4",
+            "ep13.mp4",
+            "ep14.mp4",
+            "ep15.mp4",
+            "ep16.mp4",
+            "ep17.mp4",
+            "ep18.mp4",
+            "ep19.mp4",
+            "ep20.mp4",
+            "ep21.mp4",
+            "ep22.mp4",
+            "ep23.mp4",
+            "ep24.mp4",
+            "ep25.mp4",
+            "ep26.mp4",
+            "ep27.mp4"
+        ];
+
+        let currentVideoIndex = 0;
+
+        function changeVideo() {
+            currentVideoIndex = (currentVideoIndex + 1) % videoSources.length;
+            
+            const video = document.getElementById("myVideo");
+            const source = video.querySelector("source");
+            
+            source.src = videoSources[currentVideoIndex];
+            video.load();
+            video.play();
+        }
     </script>
 </body>
 </html>

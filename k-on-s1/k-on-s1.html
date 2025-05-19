@@ -15,20 +15,14 @@
             align-items: center;
         }
         .video-container {
-            position: relative;
-            width: 800px;
-            margin-bottom: 20px;
+            width: 100%; 
+            max-width: 1200px;
+            height: auto; 
         }
-        @media (max-width: 768px) {
-            .video-container {
-                width: 350px;
-            }
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            aspect-ratio: 16 / 9;
-            border: none;
+        .video-container video {
+            display: block; 
+            width: 100%; 
+            height: auto;
         }
         .episode-list {
             display: flex;
@@ -245,32 +239,37 @@ const series = "k-on-s1"
 
     }
 }
+        resumePlaybackOnLoad();
 
-    document.addEventListener('DOMContentLoaded', resumePlaybackOnLoad);
+        const videoSources = [
+            "ep1.mp4",
+            "ep2.mp4",
+            "ep3.mp4",
+            "ep4.mp4",
+            "ep5.mp4",
+            "ep6.mp4",
+            "ep7.mp4",
+            "ep8.mp4",
+            "ep9.mp4",
+            "ep10.mp4",
+            "ep11.mp4",
+            "ep12.mp4",
+            "ep13.mp4",
+            "ep14.mp4"
+        ];
 
-            sizeUpBtn.addEventListener('click', () => {
-            if (currentWidth < maxWidth) {
-                currentWidth = Math.min(currentWidth + step, maxWidth);
-                updateSize();
-            }
-        });
+        let currentVideoIndex = 0;
 
-        sizeDownBtn.addEventListener('click', () => {
-            if (currentWidth > minWidth) {
-                currentWidth = Math.max(currentWidth - step, minWidth);
-                updateSize();
-            }
-        });
-
-        episodes.forEach((episode, index) => {
-            episode.addEventListener('click', (e) => {
-                e.preventDefault();
-                updateEpisode(index);
-            });
-        });
-
-        updateSize();
-
+        function changeVideo() {
+            currentVideoIndex = (currentVideoIndex + 1) % videoSources.length;
+            
+            const video = document.getElementById("myVideo");
+            const source = video.querySelector("source");
+            
+            source.src = videoSources[currentVideoIndex];
+            video.load();
+            video.play();
+        }
     </script>
 </body>
 </html>
