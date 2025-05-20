@@ -172,39 +172,63 @@
         const maxWidth = 1200; // Maximum width
         const step = 100; // Size change step
 
-        function updateEpisode(index) {
-            const episode = episodes[index];
-            const episodeNumber = episode.getAttribute('data-episode');
-            const episodeSrc = episode.getAttribute('href');
-            document.querySelector('iframe').src = episodeSrc;
-            currentEpisodeDisplay.textContent = `Currently Playing: Episode ${episodeNumber}`;
-            currentEpisodeIndex = index;
+document.addEventListener('DOMContentLoaded', function() {
+    let currentEpisode = 1;
+    const totalEpisodes = 14;
+    const video = document.querySelector('video[name="video-frame"]');
+    const currentEpisodeElement = document.getElementById('current-episode');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const episodeLinks = document.querySelectorAll('.episode-block a');
 
-            prevBtn.disabled = currentEpisodeIndex === 0;
-            nextBtn.disabled = currentEpisodeIndex === episodes.length - 1;
-        }
+    function updateButtons() {
+        prevBtn.disabled = currentEpisode === 1;
+        nextBtn.disabled = currentEpisode === totalEpisodes;
+    }
 
-        function updateSize() {
-            videoContainer.style.width = `${currentWidth}px`;
-            sizeDisplay.textContent = `${currentWidth}px`;
-            sizeDownBtn.disabled = currentWidth <= minWidth;
-            sizeUpBtn.disabled = currentWidth >= maxWidth;
-        }
-
-        prevBtn.addEventListener('click', () => {
-            if (currentEpisodeIndex > 0) {
-                updateEpisode(currentEpisodeIndex - 1);
+    function updateActiveEpisode() {
+        episodeLinks.forEach(link => {
+            link.classList.remove('active');
+            if (parseInt(link.dataset.episode) === currentEpisode) {
+                link.classList.add('active');
             }
         });
+    }
 
-        nextBtn.addEventListener('click', () => {
-            if (currentEpisodeIndex < episodes.length - 1) {
-                updateEpisode(currentEpisodeIndex + 1);
-            }
+    function loadEpisode(episodeNumber) {
+        if (episodeNumber < 1 || episodeNumber > totalEpisodes) return;
+        
+        currentEpisode = episodeNumber;
+        video.src = `ep${currentEpisode}.mp4`;
+        video.load();
+        
+        currentEpisodeElement.textContent = `Currently Playing: Episode ${currentEpisode}`;
+        updateButtons();
+        updateActiveEpisode();
+        
+        // Attempt to autoplay after user interaction
+        video.play().catch(error => {
+            console.log('Autoplay blocked:', error);
         });
+    }
 
+    // Button event listeners
+    prevBtn.addEventListener('click', () => loadEpisode(currentEpisode - 1));
+    nextBtn.addEventListener('click', () => loadEpisode(currentEpisode + 1));
+
+    // Episode list event listeners
+    episodeLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            loadEpisode(parseInt(this.dataset.episode));
+        });
+    });
+
+    loadEpisode(1);
+
+});
 const series = "k-on-s1"
-        const localStorageKey = `last_playback_time_${series}`;
+        const localStorageKey = `last_playback_${series}_ep${episodeNumber}`;
 
         function getPlayerTimestamp(){
             const videoContainer = document.getElementById('video-container');
@@ -231,7 +255,7 @@ const series = "k-on-s1"
                     const parsedTime = parseFloat(lastPlaybackTime);
                     if (!isNaN(parsedTime)) {
                         videoFrame.currentTime = parsedTime;
-                        console.log("Resumed playback at:", parsedTime);
+                        console.log(`Resumed episode ${episodeNumber} at:`, parsedTime);
                         // Optionally, start playing:
                         // videoFrame.play();
                     }
