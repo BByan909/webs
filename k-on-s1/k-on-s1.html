@@ -167,10 +167,6 @@
         const sizeDownBtn = document.getElementById('size-down');
         const sizeDisplay = document.getElementById('size-display');
         let currentEpisodeIndex = 0;
-        let currentWidth = 800; // Default width in pixels
-        const minWidth = 400; // Minimum width
-        const maxWidth = 1200; // Maximum width
-        const step = 100; // Size change step
 
 document.addEventListener('DOMContentLoaded', function() {
     let currentEpisode = 1;
@@ -228,7 +224,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 const series = "k-on-s1"
-        const localStorageKey = `last_playback_${series}_ep${episodeNumber}`;
+let currentEpisode = 1; 
+        const localStorageKey = `playback_${series}_ep${currentEpisode}`;
 
         function getPlayerTimestamp(){
             const videoContainer = document.getElementById('video-container');
@@ -255,7 +252,7 @@ const series = "k-on-s1"
                     const parsedTime = parseFloat(lastPlaybackTime);
                     if (!isNaN(parsedTime)) {
                         videoFrame.currentTime = parsedTime;
-                        console.log(`Resumed episode ${episodeNumber} at:`, parsedTime);
+                        console.log(`Resumed episode at:`, parsedTime);
                         // Optionally, start playing:
                         // videoFrame.play();
                     }
@@ -265,22 +262,22 @@ const series = "k-on-s1"
 }
         resumePlaybackOnLoad();
 
-        const videoSources = [
-            "ep1.mp4",
-            "ep2.mp4",
-            "ep3.mp4",
-            "ep4.mp4",
-            "ep5.mp4",
-            "ep6.mp4",
-            "ep7.mp4",
-            "ep8.mp4",
-            "ep9.mp4",
-            "ep10.mp4",
-            "ep11.mp4",
-            "ep12.mp4",
-            "ep13.mp4",
-            "ep14.mp4"
-        ];
+        // const videoSources = [
+        //     "ep1.mp4",
+        //     "ep2.mp4",
+        //     "ep3.mp4",
+        //     "ep4.mp4",
+        //     "ep5.mp4",
+        //     "ep6.mp4",
+        //     "ep7.mp4",
+        //     "ep8.mp4",
+        //     "ep9.mp4",
+        //     "ep10.mp4",
+        //     "ep11.mp4",
+        //     "ep12.mp4",
+        //     "ep13.mp4",
+        //     "ep14.mp4"
+        // ];
 
         let currentVideoIndex = 0;
 
