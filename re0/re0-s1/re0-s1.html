@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Re：從零開始的異世界生活</title>
-     <style>
+    <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -14,21 +15,19 @@
             flex-direction: column;
             align-items: center;
         }
+
         .video-container {
-            position: relative;
-            width: 800px;
-            margin-bottom: 20px;
-        }
-        .video-container {
-            width: 100%; 
+            width: 90%;
             max-width: 1200px;
-            height: auto; 
-        }
-        .video-container video {
-            display: block; 
-            width: 100%; 
             height: auto;
         }
+
+        .video-container video {
+            display: block;
+            width: 90%;
+            height: auto;
+        }
+
         .episode-list {
             display: flex;
             flex-wrap: wrap;
@@ -37,6 +36,7 @@
             margin-top: 20px;
             max-width: calc((100px + 10px) * 9 - 10px);
         }
+
         .episode-block {
             border: 2px solid #444;
             border-radius: 5px;
@@ -45,24 +45,29 @@
             text-align: center;
             background-color: #1e1e1e;
         }
+
         .episode-block a {
             text-decoration: none;
             color: #4fc3f7;
             font-weight: bold;
         }
+
         .episode-block a:hover {
             text-decoration: underline;
         }
+
         .content {
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         .controls {
             margin-top: 10px;
             display: flex;
             gap: 10px;
         }
+
         .controls button {
             padding: 10px 20px;
             background-color: #4fc3f7;
@@ -72,16 +77,19 @@
             font-weight: bold;
             cursor: pointer;
         }
+
         .controls button:disabled {
             background-color: #444;
             cursor: not-allowed;
         }
+
         .size-controls {
             margin-top: 10px;
             display: flex;
             gap: 10px;
             align-items: center;
         }
+
         .size-controls button {
             padding: 5px 10px;
             background-color: #333;
@@ -102,16 +110,17 @@
         border: 2px solid #444;
         font-weight: bold;
         cursor: pointer;
-    "onclick="window.location.href='../main.html'">Back</button>
+    " onclick="window.location.href='../main.html'">Back</button>
 </div>
+
 <body>
     <div class="content">
         <h1>Re：從零開始的異世界生活</h1>
-         <p id="current-episode">Currently Playing: Episode 1</p>
+        <p id="current-episode">Currently Playing: Episode 1</p>
         <div class="video-container" id="video-container">
-        <video name="video-frame" width="800" height="400" controls>
+            <video name="video-frame" width="800" height="400" controls>
                 <source src="ep1.mp4" type="video/mp4">
-            </video> 
+            </video>
         </div>
         <div class="controls">
             <button id="prev-btn" disabled>Previous</button>
@@ -197,130 +206,62 @@
         <div class="episode-block">
             <a href="ep26.mp4" target="video-frame" data-episode="26">Episode 26</a>
         </div>
-            <script>
-        const episodes = Array.from(document.querySelectorAll('.episode-block a'));
-        const currentEpisodeDisplay = document.getElementById('current-episode');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const videoContainer = document.getElementById('video-container');
-        const sizeUpBtn = document.getElementById('size-up');
-        const sizeDownBtn = document.getElementById('size-down');
-        const sizeDisplay = document.getElementById('size-display');
-        let currentEpisodeIndex = 0;
-        let currentWidth = 800; // Default width in pixels
-        const minWidth = 400; // Minimum width
-        const maxWidth = 1200; // Maximum width
-        const step = 100; // Size change step
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const totalEpisodes = 14;
+                const video = document.querySelector('video[name="video-frame"]');
+                const currentEpisodeElement = document.getElementById('current-episode');
+                const prevBtn = document.getElementById('prev-btn');
+                const nextBtn = document.getElementById('next-btn');
+                const episodeLinks = document.querySelectorAll('.episode-block a');
+                let currentEpisode = 1;
 
-        function updateEpisode(index) {
-            const episode = episodes[index];
-            const episodeNumber = episode.getAttribute('data-episode');
-            const episodeSrc = episode.getAttribute('href');
-            document.querySelector('iframe').src = episodeSrc;
-            currentEpisodeDisplay.textContent = `Currently Playing: Episode ${episodeNumber}`;
-            currentEpisodeIndex = index;
+                function updateButtons() {
+                    prevBtn.disabled = currentEpisode === 1;
+                    nextBtn.disabled = currentEpisode === totalEpisodes;
+                }
 
-            prevBtn.disabled = currentEpisodeIndex === 0;
-            nextBtn.disabled = currentEpisodeIndex === episodes.length - 1;
-        }
+                function updateActiveEpisode() {
+                    episodeLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (parseInt(link.dataset.episode) === currentEpisode) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
 
-        function updateSize() {
-            videoContainer.style.width = `${currentWidth}px`;
-            sizeDisplay.textContent = `${currentWidth}px`;
-            sizeDownBtn.disabled = currentWidth <= minWidth;
-            sizeUpBtn.disabled = currentWidth >= maxWidth;
-        }
+                function loadEpisode(episodeNumber) {
+                    if (episodeNumber < 1 || episodeNumber > totalEpisodes) return;
 
-        prevBtn.addEventListener('click', () => {
-            if (currentEpisodeIndex > 0) {
-                updateEpisode(currentEpisodeIndex - 1);
-            }
-        });
+                    currentEpisode = episodeNumber;
+                    video.src = `ep${currentEpisode}.mp4`;
+                    video.load();
 
-        nextBtn.addEventListener('click', () => {
-            if (currentEpisodeIndex < episodes.length - 1) {
-                updateEpisode(currentEpisodeIndex + 1);
-            }
-        });
-const series = "re0-s1"; // Change this to the series name you want to use for localStorage
-        const localStorageKey = `last_playback_time_${series}`;
+                    currentEpisodeElement.textContent = `Currently Playing: Episode ${currentEpisode}`;
+                    updateButtons();
+                    updateActiveEpisode();
 
-        function getPlayerTimestamp(){
-            const videoContainer = document.getElementById('video-container');
-            const videoFrame = videoContainer.querySelector('video[name="video-frame"]');  
+                    // Attempt to autoplay after user interaction
+                    video.play().catch(error => {
+                        console.log('Autoplay blocked:', error);
+                    });
+                }
 
-            videoFrame.ontimeupdate = (e) => {
-                const currentTimestamp = videoFrame.currentTime;
-                localStorage.setItem(localStorageKey, currentTimestamp);
-                // console.log("Current timestamp:", currentTimestamp);
-            }
-            
-            
-        }
+                // Button event listeners
+                prevBtn.addEventListener('click', () => loadEpisode(currentEpisode - 1));
+                nextBtn.addEventListener('click', () => loadEpisode(currentEpisode + 1));
 
-        getPlayerTimestamp();
+                // Episode list event listeners
+                episodeLinks.forEach(link => {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        loadEpisode(parseInt(this.dataset.episode));
+                    });
+                });
 
-        function resumePlaybackOnLoad() {
-            const videoContainer = document.getElementById('video-container');
-            const videoFrame = videoContainer.querySelector('video[name="video-frame"]');
-
-            if (videoFrame) {
-                const lastPlaybackTime = localStorage.getItem(localStorageKey);
-                if (lastPlaybackTime !== null) {
-                    const parsedTime = parseFloat(lastPlaybackTime);
-                    if (!isNaN(parsedTime)) {
-                        videoFrame.currentTime = parsedTime;
-                        console.log("Resumed playback at:", parsedTime);
-                        // Optionally, start playing:
-                        // videoFrame.play();
-                    }
-        }
-
-    }
-}
-        resumePlaybackOnLoad();
-
-                const videoSources = [
-            "ep1.mp4",
-            "ep2.mp4",
-            "ep3.mp4",
-            "ep4.mp4",
-            "ep5.mp4",
-            "ep6.mp4",
-            "ep7.mp4",
-            "ep8.mp4",
-            "ep9.mp4",
-            "ep10.mp4",
-            "ep11.mp4",
-            "ep12.mp4",
-            "ep13.mp4",
-            "ep14.mp4",
-            "ep15.mp4",
-            "ep16.mp4",
-            "ep17.mp4",
-            "ep18.mp4",
-            "ep19.mp4",
-            "ep20.mp4",
-            "ep21.mp4",
-            "ep22.mp4",
-            "ep23.mp4",
-            "ep24.mp4",
-            "ep25.mp4",
-            "ep26.mp4"
-        ];
-
-        let currentVideoIndex = 0;
-
-        function changeVideo() {
-            currentVideoIndex = (currentVideoIndex + 1) % videoSources.length;
-            
-            const video = document.getElementById("myVideo");
-            const source = video.querySelector("source");
-            
-            source.src = videoSources[currentVideoIndex];
-            video.load();
-            video.play();
-        }
-    </script>
+                loadEpisode(1);
+            });
+        </script>
 </body>
+
 </html>
